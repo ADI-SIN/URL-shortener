@@ -1,0 +1,17 @@
+<div style='width: 800px; margin: 0 auto;'>
+
+
+
+<h1>{{ title }}</h1>
+
+<form method = 'POST' action='.'> {% csrf_token %}
+      <!-- <input name='url' type='text' placeholder="enter a valid url"/> -->
+
+      <!-- this can be used(from context)instead of above html tag-->
+      
+      {{ form.as_p}} 
+      <input type="submit" value="Shorten">
+       
+</form>
+
+</div>
