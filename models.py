@@ -17,7 +17,7 @@ class URLmanager(models.Manager):
         return qs
 
     def refresh_shortcode(self): #our function to refresh/edit shotcode
-      qs = URL.objects.filter(id__gte=1)   #this is actual all() method, give all objects er than owhose id is greater than or equal to one(gte)
+      qs = URL.objects.filter(id__gte=1)   #this is actual all() method, give all objects  whose id is greater than or equal to one(gte)
       for q in qs:
           q.shortcode = create_shortcode(q) #refreshing shortcodes
           q.save     
