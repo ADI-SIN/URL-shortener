@@ -8,23 +8,35 @@ from .forms import SubmitUrlForm
 
 
 class HomeView(View):    #html page view
-   def get(self, request, *args, **kwargs):
-       the_form = SubmitUrlForm()
-       context = {
-       "title": "Submit URL",
-       "form": the_form
-       }
-       return render(request, "Myblog/home.html", context)
+	 def get(self, request, *args, **kwargs):
+			 the_form = SubmitUrlForm()
+			 context = {
+			 "title": "Submit URL",
+			 "form": the_form
+			 }
+			 return render(request, "Myblog/home.html", context)
 
 
-   def post(self, request, *args, **kwargs):
-         form = SubmitUrlForm(request.POST)
-         context = {
-         "title": "Submit URL",
-         "form": form
-         }
-         return render(request, "Myblog/home.html",context)
-      
+	 def post(self, request, *args, **kwargs):
+			 form = SubmitUrlForm(request.POST)
+			 context = {
+				 "title": "Submit URL",
+				 "form": form
+			 }
+			 template = "Myblog/home.html"
+			 if form.is_valid():
+			     new_url = form.cleaned_data.get("url")
+			     obj, created = URL.objects.get_or_create(url=new_url)
+			     context = {
+					"object": obj,
+					"created": created,
+			     }
+			     if created:
+					     template = "Mylog/success.html"
+			     else:
+				         template = "Myblog/already_exists.html"        
+			 return render(request, template ,context)
+			
 
 
 
@@ -34,42 +46,42 @@ class HomeView(View):    #html page view
 
 
 def redirect_view(request, shortcode=None, *args, **kwargs):   #function based view manages get and post methods by default
-   
+	 
 
-    objj = get_object_or_404(URL, shortcode=shortcode)
-     
-    #return HttpResponse("hello {sc}".format(sc=objj.url))
-      
-    #built in method to redirect to link  
-    return HttpResponseRedirect(objj.url)          
+		objj = get_object_or_404(URL, shortcode=shortcode)
+		 
+		#return HttpResponse("hello {sc}".format(sc=objj.url))
+			
+		#built in method to redirect to link  
+		return HttpResponseRedirect(objj.url)          
 
 
 
 class RedirectView(View):                                                 #class based view needs to define get and post methods separately
  def get(self, request, shortcode=None, *args, **kwargs):
-     objj = get_object_or_404(URL, shortcode=shortcode)
-     #return HttpResponse("hello again {sc}".format(sc=shortcode)) 
-     return HttpResponseRedirect(objj.url) 
+		 objj = get_object_or_404(URL, shortcode=shortcode)
+		 #return HttpResponse("hello again {sc}".format(sc=shortcode)) 
+		 return HttpResponseRedirect(objj.url) 
  
  def post(self, request,*args, **kwargs):
-      return HttpResponse()    
+			return HttpResponse()    
 
 
 
 
-    # objj = get_object_or_404(URL, shortcode=shortcode)                      the code which is throwing error in function redirect_view
+		# objj = get_object_or_404(URL, shortcode=shortcode)                      the code which is throwing error in function redirect_view
 
-    # try: 
-    #     obj = URL.objects.get(shortcode=shortcode)
-    # except:
-    #     obj = URL.objects.all.first() 
+		# try: 
+		#     obj = URL.objects.get(shortcode=shortcode)
+		# except:
+		#     obj = URL.objects.all.first() 
 
-   
-    # obj_url = None
-    # query = URL.objects.filter(shortcode__iexact=shortcode.upper())
-    #  if query.exists() and query.count() == 1:
-    #    query = query.first()
-    #    obj_url = obj.url 
+	 
+		# obj_url = None
+		# query = URL.objects.filter(shortcode__iexact=shortcode.upper())
+		#  if query.exists() and query.count() == 1:
+		#    query = query.first()
+		#    obj_url = obj.url 
  
-    # return HttpResponse("hello {sc}".format(sc=objj.url))
-     
+		# return HttpResponse("hello {sc}".format(sc=objj.url))
+		 

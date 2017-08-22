@@ -10,9 +10,9 @@ def code_generator(size=SHORTCODE_MIN, chars=string.ascii_lowercase + string.dig
 
 def create_shortcode(instance, size=SHORTCODE_MIN):
     new_code = code_generator(size=SHORTCODE_MIN)
-    print(instance)
-    print(instance.__class__)
-    print(instance.__class__.__name__)
+    # print(instance)
+    # print(instance.__class__)
+    # print(instance.__class__.__name__)
     Klass = instance.__class__   #to get URL class from this function    
     qs_exists = Klass.objects.filter(shortcode=new_code).exists()  #to check if alreadyexists or not
     if qs_exists:
