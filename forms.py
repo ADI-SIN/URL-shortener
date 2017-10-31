@@ -5,6 +5,6 @@ from .validators import validate_url, validate_dot_com
 
 
 class SubmitUrlForm(forms.Form):
-	url = forms.CharField(label='Submit URL', validators=[validate_url, validate_dot_com])
+	url = forms.CharField(label='Submit an URL', validators=[validate_url, validate_dot_com])
 
 	 
